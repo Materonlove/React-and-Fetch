@@ -6,6 +6,12 @@ import "../../styles/home.css";
 export const ToDo = () => {//Esta es la versión con estados centralizados, la razón de usar estados centralizados es poder comunicar estados entre componentes
     const { store, actions } = useContext(Context);
     const [refresh, setRefresh] = useState(false) //estado del compoenente para controlar su reenderizado
+    const eliminarToDo = (index) => {
+        let nuevaLista = [...store.todoList]; //Crea una copia de la lista existente
+        nuevaLista.splice(index, 1); //Elimina el elemento correspondiente en la copia de la lista
+        setStore({ todoList: nuevaLista }); //Actualiza el estado con la nueva lista
+    };
+    
 
     useEffect(() => {
         //ejecutamos una función asíncrona que traerá la información de la lista de To Do
@@ -48,12 +54,14 @@ export const ToDo = () => {//Esta es la versión con estados centralizados, la r
                 <ul>{store.todoList.map((item, index) => { //Hago un map del estado y muestro los to do si existen
                     return <li key={index}>
                         {item.label}
-                        <button type="button"    //Agrego un botón para eliminar el todo
-                            onClick={() => {
-                                actions.eliminarToDo(index)	//este botón ejecuta esta acción y le pasamos el índice
-                            }}>
-                            Eliminar
-                        </button>
+                        <button
+  type="button"
+  onClick={() => {
+    actions.eliminarToDo(index);
+  }}
+>
+  Eliminar
+</button>
                     </li>
                 })}</ul>
                 :
